@@ -97,6 +97,21 @@ export default class ReactPanZoom extends React.PureComponent<IReactPanZoomProps
     }
   }
 
+  public setMatrixData = (x: number, y: number): void => {
+    const { matrixData } = this.state;
+    matrixData[4] = x;
+    matrixData[5] = y;
+    this.setState({
+      matrixData,
+    });
+    if (this.panContainer) {
+      this.panContainer.style.transform = `matrix(${this.state.matrixData.toString()})`;
+    }
+    if (this.props.onPan) {
+      this.props.onPan(this.state.matrixData[4], this.state.matrixData[5]);
+    }
+  };
+
   private onMouseUp = () => {
     this.setState({
       dragging: false,
